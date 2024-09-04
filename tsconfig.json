@@ -7,6 +7,8 @@
     "esModuleInterop": true,
     "noImplicitAny": true,
     "sourceMap": true,
+    "jsx": "preserve",
+     "jsxImportSource": "vue",
     "baseUrl": ".",
     "outDir": "dist",
     "moduleResolution": "node",
