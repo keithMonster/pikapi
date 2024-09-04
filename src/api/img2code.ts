@@ -1,7 +1,7 @@
 import OpenAI from 'openai';
 
 const client = new OpenAI({
-  apiKey: 'sk-nkM59FJGibtgqNBw93xsoLOlhOagvEbMbEfYCVYbnbHzSd3y', // 在这里将 MOONSHOT_API_KEY 替换为你从 Kimi 开放平台申请的 API Key
+  apiKey: '-', // 在这里将 MOONSHOT_API_KEY 替换为你从 Kimi 开放平台申请的 API Key
   baseURL: 'https://api.moonshot.cn/v1',
 });
 
