@@ -1,6 +1,7 @@
 // vue
-import vitePluginVue from '@vitejs/plugin-vue'
-import vitePluginJsx from '@vitejs/plugin-vue-jsx'
+import vitePluginVue from '@vitejs/plugin-vue';
+import vitePluginJsx from '@vitejs/plugin-vue-jsx';
+import { createStyleImportPlugin } from '@dimo/vite-plugin-style-import';
 
 import type { ConfigEnv, UserConfig } from 'vite';
 import { defineConfig } from 'vite';
@@ -18,7 +19,20 @@ export default defineConfig((env) => {
     build: {
       outDir: `.vite/renderer/${name}`,
     },
-    plugins: [pluginExposeRenderer(name),vitePluginVue(), vitePluginJsx()],
+    plugins: [
+      pluginExposeRenderer(name),
+      vitePluginVue(),
+      vitePluginJsx(),
+      createStyleImportPlugin({
+        libs: [
+          {
+            libraryName: '@cfx/base',
+            esModule: true,
+            resolveStyle: (name: string) => `@cfx/base/es/${name}/style/css.js`,
+          },
+        ],
+      }),
+    ],
     resolve: {
       preserveSymlinks: true,
     },
