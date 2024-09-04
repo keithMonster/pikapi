@@ -1,12 +1,11 @@
 import { defineComponent } from 'vue';
-import { Button } from '@cfx/base';
+import Img2code from './views/img2code';
 export default defineComponent({
   name: 'App',
   setup() {
     return () => (
       <div>
-        App
-        <Button>123</Button>
+        <Img2code />
       </div>
     );
   },
