@@ -43,6 +43,7 @@
     "@cfx/base": "^1.13.1",
     "electron-squirrel-startup": "^1.0.1",
     "openai": "^4.57.1",
+    "shiki": "^1.16.2",
     "vue": "^3.5.0"
   }
 }

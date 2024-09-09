@@ -1,17 +1,19 @@
 import OpenAI from 'openai';
 import fs from 'fs';
 import path from 'path';
+import { tablePrompt } from './prompt';
 
 const client = new OpenAI({
   apiKey: 'sk-nkM59FJGibtgqNBw93xsoLOlhOagvEbMbEfYCVYbnbHzSd3y', // 在这里将 MOONSHOT_API_KEY 替换为你从 Kimi 开放平台申请的 API Key
   baseURL: 'https://api.moonshot.cn/v1',
 });
 
-const tablePrompt = `
-    这是一个table的截图，我需要你给我输出一份表头的数据
-`
-
+let isLoading = false;
 export const img2code = async (base64Data: string) => {
+  if (isLoading) {
+    return;
+  }
+  isLoading = true
   // 将 base64 字符串转换为二进制数据
   const imgData = base64Data.replace(/^data:image\/(png|jpeg|jpg);base64,/, '');
   const buffer = Buffer.from(imgData, 'base64');
@@ -33,14 +35,12 @@ export const img2code = async (base64Data: string) => {
   // 使用 client.files.create 上传文件
   const file_object = await client.files.create({
     file: fileStream,
-    purpose: 'file-extract',
+    purpose: 'file-extract' as any,
   });
 
   const file_content = await (
     await client.files.content(file_object.id)
   ).text();
-
-  console.log('file_content:',file_content);
 
   // 把它放进请求中
   const messages = [
@@ -56,12 +56,15 @@ export const img2code = async (base64Data: string) => {
     { role: 'user', content: tablePrompt },
   ];
 
+  console.log('等待返回~');
   const completion = await client.chat.completions.create({
     model: 'moonshot-v1-32k',
     messages: messages as any,
     temperature: 0.3,
   });
-  const resContent = completion.choices[0].message.content
+  isLoading = false
+  const resContent = completion.choices[0].message.content;
   console.log(resContent);
-//   console.log(JSON.parse(resContent));
+  //   console.log(JSON.parse(resContent));
+  return resContent;
 };

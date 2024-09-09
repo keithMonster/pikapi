@@ -4,5 +4,5 @@ const apiFun = {
 };
 export type ApiType = keyof typeof apiFun
 export function handleApi(e: any, apiName: ApiType, params: any) {
-  apiFun[apiName](params);
+  return apiFun[apiName](params);
 }
