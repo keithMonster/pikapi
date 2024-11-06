@@ -1,7 +1,13 @@
 import OpenAI from 'openai';
 import fs from 'fs';
 import path from 'path';
-import { tablePrompt } from './prompt';
+import { tablePrompt, filterPrompt } from './prompt';
+
+const promptMap = {
+  tableColumns: tablePrompt,
+  filterSchema: filterPrompt,
+};
+type PromptType = keyof typeof promptMap;
 
 const client = new OpenAI({
   apiKey: 'sk-nkM59FJGibtgqNBw93xsoLOlhOagvEbMbEfYCVYbnbHzSd3y', // 在这里将 MOONSHOT_API_KEY 替换为你从 Kimi 开放平台申请的 API Key
@@ -9,11 +15,11 @@ const client = new OpenAI({
 });
 
 let isLoading = false;
-export const img2code = async (base64Data: string) => {
+export const img2code = async (base64Data: string, type: PromptType) => {
   if (isLoading) {
     return;
   }
-  isLoading = true
+  isLoading = true;
   // 将 base64 字符串转换为二进制数据
   const imgData = base64Data.replace(/^data:image\/(png|jpeg|jpg);base64,/, '');
   const buffer = Buffer.from(imgData, 'base64');
@@ -53,7 +59,7 @@ export const img2code = async (base64Data: string) => {
       role: 'system',
       content: file_content,
     },
-    { role: 'user', content: tablePrompt },
+    { role: 'user', content: promptMap[type] },
   ];
 
   console.log('等待返回~');
@@ -62,9 +68,10 @@ export const img2code = async (base64Data: string) => {
     messages: messages as any,
     temperature: 0.3,
   });
-  isLoading = false
+  isLoading = false;
   const resContent = completion.choices[0].message.content;
   // console.log(resContent);
+  console.log('返回成功~');
   //   console.log(JSON.parse(resContent));
   return resContent;
 };

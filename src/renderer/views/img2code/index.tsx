@@ -7,23 +7,25 @@ const { Dragger } = Upload;
 export default defineComponent({
   name: 'Img2code',
   setup() {
-    // const handleSelect = async () => {
-    //   const filePath = await window.electronAPI.img2code('is_pc');
-    //   console.log('filePath:', filePath);
-    //   //   window.
-    // };
-    // console.log(window.electronAPI);
+    const type = ref('tableColumns');
+    const handleTypeChange = (e: any) => {
+      type.value = e.target.value;
+    };
+
     const resultCode = ref('');
 
     const handleImg2code = (imgURL: string | ArrayBuffer) => {
       resultCode.value = '加载中...';
       nextTick(async () => {
-        const code = await window.electronAPI.img2code(imgURL);
+        const code = await window.electronAPI.img2code(imgURL, type.value);
 
-        const html = await codeToHtml(code.replaceAll(`\``,'').replace('javascript',''), {
-          lang: 'javascript',
-          theme: 'vitesse-dark',
-        });
+        const html = await codeToHtml(
+          code.replaceAll(`\``, '').replace('javascript', ''),
+          {
+            lang: 'javascript',
+            theme: 'vitesse-dark',
+          }
+        );
 
         resultCode.value = html;
         // console.log('resultCode.value:',resultCode.value);
@@ -47,6 +49,10 @@ export default defineComponent({
 
     return () => (
       <div>
+        <select class='mb-2' onChange={handleTypeChange}>
+          <option value='tableColumns'>tableColumns</option>
+          <option value='filterSchema'>filterSchema</option>
+        </select>
         <div style='pointer-events:none'>
           <Dragger name='file' showUploadList={false}>
             <p class='cf-upload-text'>复制上传</p>
