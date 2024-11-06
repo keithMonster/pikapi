@@ -64,7 +64,7 @@ export const img2code = async (base64Data: string) => {
   });
   isLoading = false
   const resContent = completion.choices[0].message.content;
-  console.log(resContent);
+  // console.log(resContent);
   //   console.log(JSON.parse(resContent));
   return resContent;
 };
