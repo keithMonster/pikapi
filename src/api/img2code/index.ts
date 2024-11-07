@@ -70,7 +70,7 @@ export const img2code = async (base64Data: string, type: PromptType) => {
   });
   isLoading = false;
   const resContent = completion.choices[0].message.content;
-  // console.log(resContent);
+  console.log(resContent);
   console.log('返回成功~');
   //   console.log(JSON.parse(resContent));
   return resContent;
