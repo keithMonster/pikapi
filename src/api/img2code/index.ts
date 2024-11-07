@@ -10,7 +10,7 @@ const promptMap = {
 type PromptType = keyof typeof promptMap;
 
 const client = new OpenAI({
-  apiKey: 'sk-nkM59FJGibtgqNBw93xsoLOlhOagvEbMbEfYCVYbnbHzSd3y', // 在这里将 MOONSHOT_API_KEY 替换为你从 Kimi 开放平台申请的 API Key
+  apiKey: 'sk-nkM59FJGibtgqNBw93xsoLOlhOagvEbMbEfYCVYbnbHzSd3y',
   baseURL: 'https://api.moonshot.cn/v1',
 });
 
@@ -26,7 +26,7 @@ export const img2code = async (base64Data: string, type: PromptType) => {
 
   // 将二进制数据保存为文件
   const tempImagePath = path.join(__dirname, 'temp_image.png');
-  fs.writeFileSync(tempImagePath, buffer);
+  fs.writeFileSync(tempImagePath, buffer as any);
 
   // 创建一个可读流
   const fileStream = fs.createReadStream(

@@ -1,4 +1,4 @@
-const tableCode = `
+const tableColumns = `
 export const columns: any[] = [
     {
         title: '好友',
@@ -29,12 +29,12 @@ export const columns: any[] = [
 `;
 export const tablePrompt = `
     这是一个table的截图，里面包含了表头信息，可能还有行信息；
-    这是示例代码：${tableCode}；
+    这是示例代码：${tableColumns}；
     其中dataIndex为纯英文；
     按照示例代码的格式输出表头的数据，直接返回代码本身的内容；
 `;
 
-export const filterSchema = `
+const filterSchema = `
 export filterSchema:any[] = [
   {
     key: 'input',
